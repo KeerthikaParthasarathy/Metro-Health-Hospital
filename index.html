@@ -161,6 +161,28 @@
     }
     .badge-247 span { color: #6EA8FE; letter-spacing: 0.14em; }
 
+    .sound-toggle {
+      position: absolute; z-index: 12; top: max(92px, calc(env(safe-area-inset-top) + 84px));
+      right: max(clamp(16px, 4vw, 56px), env(safe-area-inset-right));
+      display: inline-flex; align-items: center; gap: 9px; min-height: 44px;
+      padding: 9px 14px; border: 1px solid rgba(255,255,255,.2); border-radius: 999px;
+      color: #F5F8FC; background: rgba(5, 15, 31, .58); backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px); box-shadow: 0 8px 28px rgba(0,0,0,.18);
+      font: 600 10px var(--font-mono); letter-spacing: .1em; text-transform: uppercase;
+      cursor: pointer; transition: border-color .2s ease, background .2s ease, transform .2s ease;
+    }
+    .sound-toggle:hover { border-color: rgba(141,186,255,.75); background: rgba(5,15,31,.78); transform: translateY(-1px); }
+    .sound-toggle:focus-visible { outline: 2px solid #8DBAFF; outline-offset: 3px; }
+    .sound-toggle:disabled { cursor: wait; opacity: .72; }
+    .sound-toggle svg { width: 17px; height: 17px; flex: none; fill: none; stroke: currentColor; stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; }
+    .sound-toggle .sound-waves { display: none; }
+    .sound-toggle[aria-pressed="true"] .sound-slash { display: none; }
+    .sound-toggle[aria-pressed="true"] .sound-waves { display: block; }
+    .sound-toggle[aria-pressed="true"] .sound-wave { transform-origin: 12px 12px; animation: sound-wave-pulse 1.2s ease-in-out infinite alternate; }
+    .sound-toggle[aria-pressed="true"] .sound-wave:nth-child(2) { animation-delay: .22s; }
+    .sound-toggle[aria-pressed="true"] .sound-wave:nth-child(3) { animation-delay: .44s; }
+    @keyframes sound-wave-pulse { from { opacity: .4; } to { opacity: 1; } }
+
     /* Surgery Section */
     .surg { height: 260svh; position: relative; background: #071224; }
     .surg .pin { display: flex; align-items: center; }
@@ -294,6 +316,138 @@
       .footer-bottom { align-items: flex-start; }
     }
     @media(max-width: 380px) { .footer-main { grid-template-columns: 1fr; } .footer-brand-column { grid-column: auto; } }
+
+
+    /* Post-hero cinematic stages */
+    .surgery-expansion { height: 320svh; position: relative; background: #050B15; }
+    .surgery-pin, .scanner-pin { position: sticky; top: 0; height: 100svh; min-height: 560px; overflow: hidden; }
+    .surgery-frame { position: absolute; inset: 0; overflow: hidden; clip-path: inset(var(--frame-top, 34.5%) var(--frame-side, 22.5%) round var(--frame-radius, 14px)); will-change: clip-path; background: #0A1931; }
+    .surgery-frame-image { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: center; }
+    .surgery-frame-shade { position: absolute; inset: 0; background: linear-gradient(90deg, rgba(4, 12, 26, .82), rgba(4, 12, 26, .16) 75%), linear-gradient(0deg, rgba(4, 12, 26, .86), transparent 62%); }
+    .surgery-kicker { position: absolute; z-index: 2; top: calc(var(--frame-top, 34.5%) + 18px); left: calc(var(--frame-side, 22.5%) + 22px); padding: 8px 11px; border: 1px solid rgba(255,255,255,.3); border-radius: 999px; background: rgba(5,14,29,.54); color: #DCE8F8; backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); transition: top .08s linear, left .08s linear; }
+    .surgery-copy { position: absolute; z-index: 2; left: max(7vw, env(safe-area-inset-left)); bottom: clamp(110px, 17vh, 190px); width: min(900px, 78vw); opacity: var(--surgery-reveal, 0); transform: translateY(calc((1 - var(--surgery-reveal, 0)) * 26px)); will-change: opacity, transform; }
+    .surgery-eyebrow { color: #8CB8FF; margin-bottom: 12px; }
+    .surgery-copy .statement { max-width: 18ch; font-size: clamp(2rem, 5.1vw, 5.2rem); line-height: 1.04; text-transform: uppercase; }
+    .surgery-copy .statement .w { opacity: .24; transition: opacity .18s ease; }
+    .surgery-copy .statement .w.on { opacity: 1; }
+    .surgery-copy .statement .w.highlight { color: #85B6FF; }
+    .surgery-metrics { position: absolute; z-index: 2; left: max(7vw, env(safe-area-inset-left)); right: max(7vw, env(safe-area-inset-right)); bottom: 38px; display: flex; gap: clamp(22px, 5vw, 72px); align-items: flex-end; padding-top: 18px; border-top: 1px solid rgba(255,255,255,.28); opacity: var(--surgery-reveal, 0); transform: translateY(calc((1 - var(--surgery-reveal, 0)) * 18px)); will-change: opacity, transform; }
+    .surgery-metrics div { display: grid; gap: 5px; }
+    .surgery-metrics b { color: #fff; font: 800 clamp(1.4rem, 3vw, 2.8rem)/1 var(--font-heading); }
+    .surgery-metrics span { color: #D0DCEE; font: 10px var(--font-mono); letter-spacing: .12em; text-transform: uppercase; }
+    .surgery-scroll, .scanner-scroll { position: absolute; z-index: 3; right: max(7vw, env(safe-area-inset-right)); bottom: 36px; color: #C6D6EA; }
+    .surgery-scroll { opacity: calc(1 - var(--surgery-reveal, 0)); transition: opacity .2s ease; }
+
+    .scanner-portal { height: 300svh; position: relative; background: #050B15; }
+    .scanner-base { position: absolute; inset: 0; background: radial-gradient(ellipse at center, #122944 0, #071224 50%, #030811 100%); }
+    .scanner-reveal { position: absolute; inset: 0; overflow: hidden; clip-path: circle(var(--iris-radius, 9vmin) at 50% 50%); will-change: clip-path; background: #101C2C; }
+    .scanner-reveal img { width: 100%; height: 100%; object-fit: cover; object-position: center; filter: saturate(.82) contrast(1.05); }
+    .scanner-image-shade { position: absolute; inset: 0; background: linear-gradient(0deg, rgba(3,10,22,.9), transparent 65%), radial-gradient(ellipse at center, transparent 25%, rgba(3,10,22,.2)); }
+    .scanner-index { position: absolute; z-index: 3; top: 9vh; left: max(6vw, env(safe-area-inset-left)); color: #AFC9E8; }
+    .scanner-stamp { position: absolute; z-index: 4; top: 9vh; right: max(6vw, env(safe-area-inset-right)); width: clamp(112px, 15vw, 178px); aspect-ratio: 1; display: grid; place-content: center; justify-items: center; gap: 4px; padding: 15px; border: 1px solid rgba(255,255,255,.55); border-radius: 50%; color: #fff; background: rgba(8,20,39,.24); backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px); text-align: center; animation: scanner-spin 28s linear infinite; }
+    .scanner-stamp span { font: 9px var(--font-mono); letter-spacing: .12em; text-transform: uppercase; }
+    .scanner-stamp b { max-width: 12ch; font: 700 clamp(12px, 1.4vw, 16px)/1.2 var(--font-heading); text-transform: uppercase; }
+    .scanner-stamp i { color: #8DBAFF; font-style: normal; font-size: 20px; }
+    @keyframes scanner-spin { to { transform: rotate(360deg); } }
+    .scanner-copy { position: absolute; z-index: 3; left: max(7vw, env(safe-area-inset-left)); bottom: clamp(100px, 16vh, 170px); max-width: 760px; opacity: var(--scanner-copy, 0); transform: translateY(calc((1 - var(--scanner-copy, 0)) * 22px)); will-change: opacity, transform; }
+    .scanner-copy > .mono { color: #A8C9F5; margin-bottom: 12px; }
+    .scanner-copy h2 { color: #fff; font: 800 clamp(2.5rem, 7vw, 7rem)/.98 var(--font-heading); letter-spacing: -.045em; text-transform: uppercase; }
+    .scanner-copy h2 span { color: #8DBAFF; }
+    .scanner-copy > p:last-child { max-width: 46ch; margin-top: 18px; color: #D6E1F0; font-size: clamp(14px, 1.4vw, 18px); }
+
+    .hours { padding-block: clamp(76px, 10vw, 142px); background: #071224; border-top: 1px solid var(--line); }
+    .hours-grid { grid-template-columns: .9fr 1.1fr; align-items: center; }
+    .hours-kicker, .dept-kicker, .book-kicker { color: #6EA8FE; margin-bottom: 14px; }
+    .hours h2 { font: 800 clamp(2.8rem, 6.2vw, 6rem)/.98 var(--font-heading); letter-spacing: -.045em; text-transform: uppercase; }
+    .hours h2 span { color: #6EA8FE !important; }
+    .hours-local { display: flex; align-items: baseline; gap: 12px; margin-top: 26px; color: #9FB0C5; font: 11px var(--font-mono); letter-spacing: .12em; text-transform: uppercase; }
+    .hours-local b { color: #fff; font: 700 22px var(--font-heading); letter-spacing: 0; }
+    .sched-list { margin: 0; padding: clamp(12px, 2vw, 24px); border: 1px solid rgba(255,255,255,.12); border-radius: 16px; background: linear-gradient(145deg, rgba(255,255,255,.07), rgba(255,255,255,.025)); box-shadow: 0 22px 70px rgba(0,0,0,.22); backdrop-filter: blur(18px); -webkit-backdrop-filter: blur(18px); }
+    .sched-list li { grid-template-columns: minmax(90px, 112px) 1fr auto; gap: 14px; padding: 16px 8px; border-color: rgba(255,255,255,.09); }
+    .sched-list .time { font-size: 10px; color: #91A9C4; white-space: nowrap; }
+    .sched-list .dept-name { color: #E8EEF7; }
+    .chip { white-space: nowrap; }
+
+    .dept { height: 390svh; background: #050B15; }
+    .dept .dept-pin { display: flex; align-items: stretch; justify-content: center; gap: 0; padding-block: clamp(36px, 6vh, 72px); }
+    .dept-top { align-items: flex-end; padding-top: 0; }
+    .dept-kicker { margin-bottom: 6px; }
+    .dept-top h2 { font: 800 clamp(2rem, 4.8vw, 4.8rem)/1 var(--font-heading); letter-spacing: -.04em; }
+    .dept-count { color: var(--muted); }
+    .dept-count b { color: #fff; }
+    .dept-intro { color: #9AABC0; margin-top: 12px; }
+    .trackwrap { overflow: hidden; width: 100%; margin-top: clamp(22px, 4vh, 44px); }
+    .track { gap: clamp(14px, 2vw, 24px); padding-inline: max(clamp(16px, 4vw, 56px), env(safe-area-inset-left)); }
+    .panel { width: min(31vw, 410px); height: min(57svh, 550px); border-radius: 18px; border-color: rgba(255,255,255,.13); background: #0B1930; box-shadow: 0 20px 60px rgba(0,0,0,.22); }
+    .panel img { opacity: .72; transition: transform .7s cubic-bezier(.2,.7,.2,1), opacity .4s ease; }
+    .panel:hover img { transform: scale(1.055); opacity: .9; }
+    .panel::after { background: linear-gradient(0deg, rgba(5,12,25,.96), rgba(5,12,25,.05) 72%); }
+    .panel-meta { color: #9BC2F5; }
+    .panel-info h3 { font: 700 clamp(20px, 2vw, 27px)/1.15 var(--font-heading); }
+    .panel-info p { color: #C4D0DF; }
+    .track-hint { margin-top: 20px; color: #8EA3BC; }
+    .track-hint span { color: #6EA8FE; }
+
+    .book { padding-block: clamp(72px, 10vw, 144px); }
+    .book-grid { align-items: center; }
+    .book h2 { font: 800 clamp(2.5rem, 5.5vw, 5rem)/.98 var(--font-heading); letter-spacing: -.04em; }
+    .book-intro { max-width: 42ch; color: var(--muted); margin-bottom: 22px; }
+    .book-hotline { color: #A8B9CE; }
+    .book-hotline a { color: #fff; text-decoration: none; }
+    .book-hotline a:hover { color: #6EA8FE; }
+    #bookForm { padding: clamp(18px, 3vw, 32px); border: 1px solid var(--line); border-radius: 16px; background: rgba(255,255,255,.035); }
+
+    @media (max-width: 900px) {
+      .hours-grid { grid-template-columns: 1fr; gap: 32px; }
+      .dept { height: auto; }
+      .dept .dept-pin { position: relative; top: auto; height: auto; min-height: 0; padding-block: 68px; }
+      .trackwrap { overflow-x: auto; overflow-y: hidden; scroll-snap-type: x mandatory; scrollbar-width: none; }
+      .trackwrap::-webkit-scrollbar { display: none; }
+      .track { width: max-content; transform: none !important; }
+      .panel { width: min(76vw, 360px); height: min(66svh, 500px); scroll-snap-align: center; }
+      .track-hint { display: block; }
+      .surgery-copy { width: min(88vw, 740px); left: 6vw; bottom: 145px; }
+      .surgery-metrics { left: 6vw; right: 6vw; gap: 18px; bottom: 28px; }
+      .surgery-metrics span { font-size: 9px; }
+      .scanner-stamp { width: 126px; }
+    }
+    @media (max-width: 600px) {
+      .sound-toggle { top: max(136px, calc(env(safe-area-inset-top) + 132px)); right: max(16px, env(safe-area-inset-right)); }
+      .surgery-expansion, .scanner-portal { height: 250svh; }
+      .surgery-pin, .scanner-pin { min-height: 520px; }
+      .surgery-frame { clip-path: inset(var(--frame-top, 39%) var(--frame-side, 8%) round var(--frame-radius, 12px)); }
+      .surgery-kicker { left: calc(var(--frame-side, 8%) + 12px); top: calc(var(--frame-top, 39%) + 12px); font-size: 9px; }
+      .surgery-copy { left: 22px; right: 22px; bottom: 160px; width: auto; }
+      .surgery-copy .statement { font-size: clamp(1.8rem, 8vw, 3rem); }
+      .surgery-metrics { left: 22px; right: 22px; bottom: 22px; gap: 12px; }
+      .surgery-metrics div { min-width: 0; }
+      .surgery-metrics b { font-size: 1.35rem; }
+      .surgery-metrics span { font-size: 8px; line-height: 1.4; letter-spacing: .06em; }
+      .surgery-scroll { display: none; }
+      .scanner-index { top: 7vh; left: 22px; }
+      .scanner-stamp { top: 7vh; right: 18px; width: 102px; padding: 8px; }
+      .scanner-stamp span { font-size: 7px; }
+      .scanner-stamp b { font-size: 10px; }
+      .scanner-copy { left: 22px; right: 22px; bottom: 100px; }
+      .scanner-copy h2 { font-size: clamp(2.25rem, 11vw, 4rem); }
+      .scanner-copy > p:last-child { font-size: 14px; }
+      .hours { padding-block: 68px; }
+      .hours h2 { font-size: clamp(2.6rem, 12vw, 4.4rem); }
+      .sched-list { padding: 10px; }
+      .sched-list li { grid-template-columns: 1fr auto; gap: 4px 12px; padding: 13px 6px; }
+      .sched-list .time { grid-column: 1; }
+      .sched-list .dept-name { grid-column: 1; }
+      .sched-list .chip { grid-column: 2; grid-row: 1 / span 2; }
+      .dept .dept-pin { padding-block: 54px; }
+      .dept-top h2 { font-size: clamp(1.8rem, 8vw, 3rem); }
+      .dept-intro { max-width: 34ch; }
+      .panel { width: 82vw; height: 430px; }
+      .book-grid { grid-template-columns: 1fr; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .scanner-stamp { animation: none; }
+      .panel img { transition: none; }
+    }
   </style>
 </head>
 <body>
@@ -349,62 +503,59 @@
           <b>24/7</b>
           <span class="mono">Emergency Open &middot; Call now</span>
         </a>
+        <button class="sound-toggle" id="soundToggle" type="button" aria-label="Toggle ambient sound" aria-pressed="false" title="Ambient sound is off">
+          <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+            <path d="M4 10v4h4l5 4V6l-5 4H4z"></path>
+            <path class="sound-slash" d="m17 9 5 6m0-6-5 6"></path>
+            <g class="sound-waves"><path class="sound-wave" d="M16 9a4 4 0 0 1 0 6"></path><path class="sound-wave" d="M18.5 6.5a8 8 0 0 1 0 11"></path><path class="sound-wave" d="M21 4a11.5 11.5 0 0 1 0 16"></path></g>
+          </svg>
+          <span id="soundLabel">Sound Off</span>
+        </button>
       </div>
     </section>
 
-    <!-- Surgery Statement -->
-    <section class="surg" id="surgery">
-      <div class="pin">
-        <img class="surg-img" src="https://images.unsplash.com/photo-1579684385127-1ef15d508118?auto=format&fit=crop&w=1920&q=80" alt="Surgical Suite" loading="lazy">
-        <div class="surg-content g">
-          <p class="mono kick" style="color: #6EA8FE; margin-bottom: 16px;">Precision Medicine · Diagnostics</p>
-          <p class="statement" id="statement">
-            Advanced medicine works best when technology and human attention move together.
-          </p>
-          <div class="surg-metrics">
-            <div><b>Advanced</b><span>Diagnostic Imaging</span></div>
-            <div><b>Connected</b><span>Multispecialty Teams</span></div>
-            <div><b>24/7</b><span>Emergency Support</span></div>
-          </div>
-        </div>
-      </div>
+    <!-- Section 2: Expanding surgery stage -->
+    <section class="surgery-expansion" id="surgery" aria-label="The Doctor's Hand">
+      <div class="surgery-pin"><div class="surgery-frame" id="surgeryFrame">
+        <img class="surgery-frame-image" src="https://images.unsplash.com/photo-1579684385127-1ef15d508118?auto=format&amp;fit=crop&amp;w=1920&amp;q=80" alt="Modern operating theatre prepared for surgery">
+        <div class="surgery-frame-shade"></div><div class="surgery-kicker mono">02 &middot; The Doctor's Hand</div>
+        <div class="surgery-copy" id="surgeryCopy"><p class="mono surgery-eyebrow">Precision medicine &middot; Human attention</p><h2 class="statement" id="statement">Medicine becomes powerful when technology and human attention move together.</h2></div>
+        <div class="surgery-metrics" id="surgeryMetrics" aria-label="Surgical care metrics"><div><b>9</b><span>Operating Theatres</span></div><div><b>1:2</b><span>Surgeon to Nurse Ratio</span></div><div><b>45 min</b><span>Door-to-Cath Lab</span></div></div>
+        <span class="surgery-scroll mono">Scroll to expand <span aria-hidden="true">&darr;</span></span>
+      </div></div>
     </section>
 
-    <!-- Bento Department Carousel -->
-    <section class="dept" id="departments">
-      <div class="pin">
-        <div class="dept-top g">
-          <div>
-            <p class="mono" style="color:#6EA8FE; margin-bottom: 6px;">Specialised Centres</p>
-            <h2>Seven Departments, One Roof.</h2>
-          </div>
-          <div class="mono" style="color: var(--muted);"><b id="dIdx" style="color:var(--white);">01</b> / 07</div>
-        </div>
-        <div class="trackwrap" id="trackwrap">
-          <div class="track g" id="track"></div>
-        </div>
-      </div>
-    </section>
+    <!-- Section 3: Circular scanner portal -->
+    <section class="scanner-portal" id="scanner" aria-label="Care that sees beyond the obvious"><div class="scanner-pin">
+      <div class="scanner-base" aria-hidden="true"></div>
+      <div class="scanner-reveal" id="scannerReveal" aria-hidden="true"><img src="https://images.unsplash.com/photo-1511174511562-5f7f18b874f8?auto=format&amp;fit=crop&amp;w=1920&amp;q=85" alt="" loading="lazy"><div class="scanner-image-shade"></div></div>
+      <div class="scanner-index mono">03 &middot; Diagnostic imaging</div>
+      <div class="scanner-stamp" aria-label="Care that sees beyond the obvious"><span>Care that sees</span><b>Beyond the obvious</b><i aria-hidden="true">&#10022;</i></div>
+      <div class="scanner-copy" id="scannerCopy"><p class="mono">Clarity at every step</p><h2>Care that sees<br><span>beyond the obvious.</span></h2><p>Ultra-high field 3T MRI, Spectral CT, and robotic AI diagnostics.</p></div>
+      <span class="scanner-scroll mono">A wider view of care <span aria-hidden="true">&darr;</span></span>
+    </div></section>
 
-    <!-- Operating Hours -->
-    <section class="hours g" id="hours">
-      <div class="hours-grid">
-        <div>
-          <p class="mono" style="color: #6EA8FE; margin-bottom: 12px;">Round-the-Clock Reliability</p>
-          <h2>Care Never <br><span style="color:#6EA8FE;">Clocks Out.</span></h2>
-          <p style="margin-top: 18px; color: var(--muted);" id="now">Local Time: <b id="clock" style="color:var(--white);">--:--</b></p>
-        </div>
-        <ul class="sched-list">
-          <li data-s="0" data-e="1440"><span class="time mono">00:00 – 24:00</span><span class="dept-name">Emergency & Trauma</span><span class="chip">Open 24/7</span></li>
-          <li data-s="360" data-e="1320"><span class="time mono">06:00 – 22:00</span><span class="dept-name">Imaging & Diagnostics</span><span class="chip">Daytime</span></li>
-          <li data-s="420" data-e="1380"><span class="time mono">07:00 – 23:00</span><span class="dept-name">Central Pharmacy</span><span class="chip">Daytime</span></li>
-          <li data-s="480" data-e="1200"><span class="time mono">08:00 – 20:00</span><span class="dept-name">Outpatient Clinics</span><span class="chip">Daytime</span></li>
-          <li data-s="540" data-e="1020"><span class="time mono">09:00 – 17:00</span><span class="dept-name">Specialist Consultations</span><span class="chip">By Booking</span></li>
-        </ul>
-      </div>
-    </section>
+    <!-- Section 4: Operating hours -->
+    <section class="hours g" id="hours"><div class="hours-grid">
+      <div class="hours-intro"><p class="mono hours-kicker">Round-the-clock reliability</p><h2>Care never<br><span>clocks out.</span></h2><p class="hours-local">Local time &middot; Chennai <b id="clock" aria-live="off">--:--</b></p></div>
+      <ul class="sched-list" aria-label="Department hours">
+        <li data-s="0" data-e="1440"><span class="time mono">00:00 &ndash; 24:00</span><span class="dept-name">Emergency &amp; Trauma</span><span class="chip">Open 24/7</span></li>
+        <li data-s="360" data-e="1320"><span class="time mono">06:00 &ndash; 22:00</span><span class="dept-name">Imaging &amp; Diagnostics</span><span class="chip">Daytime</span></li>
+        <li data-s="420" data-e="1380"><span class="time mono">07:00 &ndash; 23:00</span><span class="dept-name">Central Pharmacy</span><span class="chip">Daytime</span></li>
+        <li data-s="480" data-e="1200"><span class="time mono">08:00 &ndash; 20:00</span><span class="dept-name">Outpatient Clinics</span><span class="chip">Daytime</span></li>
+        <li data-s="540" data-e="1020"><span class="time mono">09:00 &ndash; 17:00</span><span class="dept-name">Specialist Consultations</span><span class="chip">By Booking</span></li>
+      </ul>
+    </div></section>
 
-    <!-- Booking Form -->
+    <!-- Section 5: Horizontal Bento departments track -->
+    <section class="dept" id="departments" aria-label="Clinical departments"><div class="pin dept-pin">
+      <div class="dept-top g"><div><p class="mono dept-kicker">Specialised centres</p><h2>Expertise, connected.</h2></div><div class="mono dept-count"><b id="dIdx">01</b> / 07</div></div>
+      <p class="dept-intro g">Explore coordinated care across seven clinical specialties.</p>
+      <div class="trackwrap" id="trackwrap" aria-label="Scroll through clinical specialties"><div class="track g" id="track"></div></div>
+      <div class="track-hint mono g">Scroll to explore <span aria-hidden="true">&rarr;</span></div>
+    </div></section>
+
+    <!-- Section 6: Appointment enquiry -->
     <section class="book g" id="book">
       <div class="book-grid">
         <div>
@@ -423,12 +574,12 @@
               <select name="department" required>
                 <option value="" disabled selected>Select a department</option>
                 <option>Cardiology</option>
-                <option>Neurology</option>
-                <option>Oncology</option>
-                <option>Orthopedics</option>
-                <option>Pediatrics</option>
-                <option>Maternity</option>
-                <option>Emergency Care</option>
+                <option>Neurology &amp; Stroke Care</option>
+                <option>Oncology (Surgical &amp; Medical)</option>
+                <option>Orthopedics &amp; Robotic Joint Replacement</option>
+                <option>Pediatrics &amp; Neonatal ICU</option>
+                <option>Maternity &amp; High-Risk Obstetrics</option>
+                <option>24/7 Emergency &amp; Level-1 Trauma</option>
               </select>
             </label>
             <label>Preferred Date <input type="date" required id="fDate"></label>
@@ -460,13 +611,13 @@
 
   <script>
     const DEPTS = [
-      { n: 'Cardiology', loc: 'Level 3 · East', d: 'Comprehensive cath lab, 3D echocardiography, and arrhythmia care.', img: 'https://images.unsplash.com/photo-1628348068343-c6a848d2b6dd?auto=format&fit=crop&w=800&q=80' },
-      { n: 'Neurology', loc: 'Level 4 · North', d: 'Rapid stroke intervention, neuro-ICU, and spine surgery.', img: 'https://images.unsplash.com/photo-1559757175-5700dde675bc?auto=format&fit=crop&w=800&q=80' },
-      { n: 'Oncology', loc: 'Level 2 · West', d: 'Day-care chemotherapy, precision radiation, and tumour board reviews.', img: 'https://images.unsplash.com/photo-1579154204601-01588f351e67?auto=format&fit=crop&w=800&q=80' },
-      { n: 'Orthopedics', loc: 'Level 1 · East', d: 'Robotic joint replacement, trauma rehabilitation, and sports medicine.', img: 'https://images.unsplash.com/photo-1588776814546-1ffcf47267a5?auto=format&fit=crop&w=800&q=80' },
-      { n: 'Pediatrics', loc: 'Level 1 · South', d: 'Advanced neonatal ICU (NICU) and 24/7 child health emergency care.', img: 'https://images.unsplash.com/photo-1584515979956-d9f6e5d09982?auto=format&fit=crop&w=800&q=80' },
-      { n: 'Maternity', loc: 'Level 5 · South', d: 'Private LDR suites, fetal medicine specialists, and painless delivery.', img: 'https://images.unsplash.com/photo-1531983412531-1f49a365ffed?auto=format&fit=crop&w=800&q=80' },
-      { n: 'Emergency Care', loc: 'Level 0 · Gate 2', d: 'Immediate triage, trauma surgery team, and resuscitation bays.', img: 'https://images.unsplash.com/photo-1516549655169-df83a0774514?auto=format&fit=crop&w=800&q=80' }
+      { n: 'Cardiology', loc: 'Cath Lab & EP', d: 'Advanced cath lab procedures and electrophysiology care for heart rhythm conditions.', img: 'https://images.unsplash.com/photo-1628348068343-c6a848d2b6dd?auto=format&fit=crop&w=800&q=80' },
+      { n: 'Neurology & Stroke Care', loc: 'Neuro Centre', d: 'Coordinated neurological assessment, stroke response, and specialist care.', img: 'https://images.unsplash.com/photo-1559757175-5700dde675bc?auto=format&fit=crop&w=800&q=80' },
+      { n: 'Oncology', loc: 'Surgical & Medical', d: 'Multidisciplinary surgical and medical oncology with coordinated treatment planning.', img: 'https://images.unsplash.com/photo-1579154204601-01588f351e67?auto=format&fit=crop&w=800&q=80' },
+      { n: 'Orthopedics', loc: 'Robotic Joint Care', d: 'Orthopedic surgery, robotic joint replacement, rehabilitation, and sports medicine.', img: 'https://images.unsplash.com/photo-1588776814546-1ffcf47267a5?auto=format&fit=crop&w=800&q=80' },
+      { n: 'Pediatrics & Neonatal ICU', loc: 'Child Health', d: 'Pediatric specialists and neonatal intensive care for newborns and children.', img: 'https://images.unsplash.com/photo-1584515979956-d9f6e5d09982?auto=format&fit=crop&w=800&q=80' },
+      { n: 'Maternity & High-Risk Obstetrics', loc: 'Maternity Centre', d: 'Maternity services and specialist care for high-risk pregnancies.', img: 'https://images.unsplash.com/photo-1531983412531-1f49a365ffed?auto=format&fit=crop&w=800&q=80' },
+      { n: '24/7 Emergency & Level-1 Trauma', loc: 'Emergency Centre', d: 'Round-the-clock emergency assessment and coordinated trauma response.', img: 'https://images.unsplash.com/photo-1516549655169-df83a0774514?auto=format&fit=crop&w=800&q=80' }
     ];
 
     // Populate Bento Panels
@@ -613,5 +764,176 @@
       document.getElementById('bookOut').textContent = `Thank you, ${patientName}. Your request is ready for our team to confirm by phone.`;
     });
   </script>
+
+  <script>
+    // Scroll-driven post-hero frame and iris transitions; hero scrubbing remains self-contained above.
+    (() => {
+      const surgeryStage = document.querySelector('.surgery-expansion');
+      const surgeryFrame = document.getElementById('surgeryFrame');
+      const scannerStage = document.querySelector('.scanner-portal');
+      const scannerReveal = document.getElementById('scannerReveal');
+      const trackwrap = document.getElementById('trackwrap');
+      const clamp = (value, min, max) => Math.min(max, Math.max(min, value));
+      let surgeryTarget = 0;
+      let surgeryCurrent = 0;
+      let scannerTarget = 0;
+      let scannerCurrent = 0;
+      let framePending = false;
+
+      function stageProgress(section) {
+        const rect = section.getBoundingClientRect();
+        const pin = section.querySelector('.surgery-pin, .scanner-pin');
+        const travel = Math.max(1, section.offsetHeight - pin.offsetHeight);
+        return clamp(-rect.top / travel, 0, 1);
+      }
+
+      function renderTransitions() {
+        framePending = false;
+        surgeryCurrent += (surgeryTarget - surgeryCurrent) * 0.14;
+        scannerCurrent += (scannerTarget - scannerCurrent) * 0.14;
+
+        const width = window.innerWidth;
+        const height = window.innerHeight;
+        const sideInset = width <= 600 ? 8 : 22.5;
+        const initialFrameWidth = width * (1 - (sideInset * 2 / 100));
+        const initialTop = clamp(((height - initialFrameWidth * 9 / 16) / 2 / height) * 100, 8, 44);
+        const inset = initialTop * (1 - surgeryCurrent);
+        surgeryFrame.style.setProperty('--frame-side', `${sideInset * (1 - surgeryCurrent)}%`);
+        surgeryFrame.style.setProperty('--frame-top', `${inset}%`);
+        surgeryFrame.style.setProperty('--frame-radius', `${14 * (1 - surgeryCurrent)}px`);
+        surgeryFrame.style.setProperty('--surgery-reveal', String(clamp((surgeryCurrent - 0.18) / 0.48, 0, 1)));
+
+        const startRadius = Math.min(width, height) * 0.09;
+        const endRadius = Math.hypot(width, height) / 2 + 24;
+        const radius = startRadius + (endRadius - startRadius) * scannerCurrent;
+        scannerReveal.style.setProperty('--iris-radius', `${radius}px`);
+        document.getElementById('scannerCopy').style.setProperty('--scanner-copy', String(clamp((scannerCurrent - 0.34) / 0.34, 0, 1)));
+
+        if (Math.abs(surgeryTarget - surgeryCurrent) > 0.001 || Math.abs(scannerTarget - scannerCurrent) > 0.001) {
+          framePending = true;
+          requestAnimationFrame(renderTransitions);
+        }
+      }
+
+      function queueTransitions() {
+        surgeryTarget = stageProgress(surgeryStage);
+        scannerTarget = stageProgress(scannerStage);
+        if (!framePending) {
+          framePending = true;
+          requestAnimationFrame(renderTransitions);
+        }
+      }
+
+      window.addEventListener('scroll', queueTransitions, { passive: true });
+      window.addEventListener('resize', queueTransitions, { passive: true });
+      queueTransitions();
+
+      if (trackwrap) {
+        trackwrap.addEventListener('wheel', event => {
+          if (window.innerWidth <= 900) return;
+          const horizontalGesture = Math.abs(event.deltaX) > Math.abs(event.deltaY) || event.shiftKey;
+          if (!horizontalGesture) return;
+          event.preventDefault();
+          window.scrollBy({ top: event.deltaX || event.deltaY, behavior: 'auto' });
+        }, { passive: false });
+      }
+    })();
+  </script>
+
+
+  <script>
+    // Ambient sound is synthesized only after an explicit user gesture.
+    (() => {
+      const toggle = document.getElementById('soundToggle');
+      const label = document.getElementById('soundLabel');
+      const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+      let audioContext = null;
+      let masterGain = null;
+      let suspendTimer = 0;
+      let isBusy = false;
+
+      function createAmbientSound() {
+        if (audioContext) return;
+        if (!AudioContextClass) throw new Error('Web Audio is unavailable in this browser.');
+
+        audioContext = new AudioContextClass();
+        masterGain = audioContext.createGain();
+        masterGain.gain.setValueAtTime(0, audioContext.currentTime);
+        masterGain.connect(audioContext.destination);
+
+        const lowPass = audioContext.createBiquadFilter();
+        lowPass.type = 'lowpass';
+        lowPass.frequency.setValueAtTime(520, audioContext.currentTime);
+        lowPass.Q.setValueAtTime(0.45, audioContext.currentTime);
+        lowPass.connect(masterGain);
+
+        // Soft A/E harmonic pad with a very slow pitch drift for a calm ambient bed.
+        const lfo = audioContext.createOscillator();
+        const lfoDepth = audioContext.createGain();
+        lfo.type = 'sine';
+        lfo.frequency.setValueAtTime(0.08, audioContext.currentTime);
+        lfoDepth.gain.setValueAtTime(2.5, audioContext.currentTime);
+        lfo.connect(lfoDepth);
+        lfo.start();
+
+        [[110, 0.12], [164.81, 0.075], [220, 0.035]].forEach(([frequency, level]) => {
+          const tone = audioContext.createOscillator();
+          const toneGain = audioContext.createGain();
+          tone.type = 'sine';
+          tone.frequency.setValueAtTime(frequency, audioContext.currentTime);
+          toneGain.gain.setValueAtTime(level, audioContext.currentTime);
+          lfoDepth.connect(tone.detune);
+          tone.connect(toneGain);
+          toneGain.connect(lowPass);
+          tone.start();
+        });
+      }
+
+      function fadeMasterTo(value, duration = 0.9) {
+        const now = audioContext.currentTime;
+        const gain = masterGain.gain;
+        const current = gain.value;
+        gain.cancelScheduledValues(now);
+        gain.setValueAtTime(current, now);
+        gain.linearRampToValueAtTime(value, now + duration);
+      }
+
+      function setSoundState(enabled) {
+        toggle.setAttribute('aria-pressed', String(enabled));
+        label.textContent = enabled ? 'Sound On' : 'Sound Off';
+        toggle.title = enabled ? 'Ambient sound is on' : 'Ambient sound is off';
+      }
+
+      toggle.addEventListener('click', async () => {
+        if (isBusy) return;
+        const turnOn = toggle.getAttribute('aria-pressed') !== 'true';
+        isBusy = true;
+        toggle.disabled = true;
+        window.clearTimeout(suspendTimer);
+
+        try {
+          createAmbientSound();
+          if (turnOn) {
+            await audioContext.resume();
+            fadeMasterTo(0.4);
+            setSoundState(true);
+          } else {
+            fadeMasterTo(0);
+            setSoundState(false);
+            suspendTimer = window.setTimeout(() => {
+              if (toggle.getAttribute('aria-pressed') === 'false') audioContext.suspend();
+            }, 1000);
+          }
+        } catch (error) {
+          setSoundState(false);
+          toggle.title = 'Ambient sound could not be started in this browser';
+        } finally {
+          isBusy = false;
+          toggle.disabled = false;
+        }
+      });
+    })();
+  </script>
+
 </body>
 </html>
