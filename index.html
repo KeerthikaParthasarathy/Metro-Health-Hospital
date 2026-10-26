@@ -3,7 +3,14 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <title>Metro Health Hospital · Multispeciality Care</title>
+  <meta name="description" content="Metro Health Hospital - Quaternary multispeciality medical care, 24/7 emergency &amp; trauma, robotic surgery, and advanced diagnostics in Anna Salai, Chennai.">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Metro Health Hospital &middot; Multispeciality Care Chennai">
+  <meta property="og:description" content="24/7 Quaternary healthcare, trauma surgery, and cutting-edge clinical infrastructure.">
+  <meta property="og:image" content="https://images.unsplash.com/photo-1579684385127-1ef15d508118?auto=format&amp;fit=crop&amp;w=1200&amp;q=80">
+  <meta name="theme-color" content="#0A1931">
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23014BAA'/%3E%3Cpath fill='white' d='M25 10h14v15h15v14H39v15H25V39H10V25h15z'/%3E%3C/svg%3E">
+  <title>Metro Health Hospital &middot; Multispeciality Care Chennai</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Manrope:wght@500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
@@ -138,6 +145,7 @@
     }
     
     .badge-247 {
+      display: block; color: inherit; text-decoration: none;
       position: absolute; z-index: 10;
       right: max(clamp(16px, 4vw, 56px), env(safe-area-inset-right));
       bottom: 8svh; text-align: right;
@@ -240,10 +248,10 @@
     .footer-brand { display: inline-flex; align-items: center; gap: 10px; color: var(--white); font: 800 18px var(--font-heading); text-decoration: none; }
     .footer-brand .brand-dot { flex: none; }
     .footer-mission { max-width: 32ch; margin: 16px 0 20px; color: #9AABC0; line-height: 1.7; }
-    .footer-emergency { display: inline-flex; flex-direction: column; gap: 3px; padding: 11px 14px; border: 1px solid rgba(110, 168, 254, 0.35); border-radius: 8px; background: rgba(1, 75, 170, 0.16); color: var(--white); text-decoration: none; transition: border-color 0.2s, background 0.2s; }
-    .footer-emergency:hover { border-color: #6EA8FE; background: rgba(1, 75, 170, 0.28); }
-    .footer-emergency strong { font: 700 13px var(--font-heading); }
-    .footer-emergency span, .footer-small { color: #9AABC0; font-size: 12px; }
+    .footer-emergency, .hotline-btn { display: inline-flex; flex-direction: column; gap: 3px; padding: 11px 14px; border: 1px solid rgba(110, 168, 254, 0.35); border-radius: 8px; background: rgba(1, 75, 170, 0.16); color: var(--white); text-decoration: none; transition: border-color 0.2s, background 0.2s; }
+    .footer-emergency:hover, .hotline-btn:hover { border-color: #6EA8FE; background: rgba(1, 75, 170, 0.28); }
+    .footer-emergency strong, .hotline-btn strong { font: 700 13px var(--font-heading); }
+    .footer-emergency span, .hotline-btn span, .footer-small { color: #9AABC0; font-size: 12px; }
     .footer-column h2 { margin: 4px 0 17px; color: var(--white); font: 700 13px var(--font-heading); letter-spacing: 0.04em; }
     .footer-links { display: grid; gap: 10px; list-style: none; }
     .footer-links a { color: #9AABC0; text-decoration: none; transition: color 0.2s; }
@@ -273,9 +281,14 @@
       .cap .text-box { max-width: calc(100vw - 32px); }
     }
     @media(max-width: 600px) {
+      .nav { padding-block: 12px; }
+      .nav .brand { font-size: 14px; gap: 7px; }
+      .nav > .btn { padding: 9px 10px; font-size: 9px; }
       .form-row { grid-template-columns: 1fr; }
       .sched-list li { grid-template-columns: 90px 1fr auto; font-size: 13px; }
-      .badge-247 { display: none; }
+      .badge-247 { display: block; top: max(76px, calc(env(safe-area-inset-top) + 68px)); right: 16px; bottom: auto; padding: 8px 12px; }
+      .badge-247 b { font-size: 1.6rem; }
+      .badge-247 span { font-size: 9px; }
       .footer-main { grid-template-columns: 1fr 1fr; padding-top: 44px; padding-bottom: 36px; }
       .footer-brand-column { grid-column: 1 / -1; }
       .footer-bottom { align-items: flex-start; }
@@ -304,7 +317,7 @@
     <!-- Hero Section -->
     <section class="stage" id="stage">
       <div class="pin shade">
-        <video class="video-bg" id="heroVid" muted playsinline preload="auto">
+        <video class="video-bg" id="heroVid" muted playsinline preload="auto" poster="https://images.unsplash.com/photo-1579684385127-1ef15d508118?auto=format&fit=crop&w=1920&q=80" aria-hidden="true">
           <source src="hero-video.mp4" type="video/mp4">
         </video>
         
@@ -313,29 +326,29 @@
             <div class="text-box">
               <p class="mono kick" style="color: #6EA8FE; margin-bottom: 6px;">Metro Health Hospital · Advanced Care</p>
               <h1>YOUR HEALTH, <br><span>OUR GREATEST PRIORITY.</span></h1>
-              <p class="sub">Multispeciality clinical excellence powered by high-precision medical technology.</p>
+              <p class="sub">Multispeciality care, advanced diagnostics, and experienced teams&mdash;coordinated around you.</p>
             </div>
           </div>
           <div class="cap" data-cap="1">
             <div class="text-box">
               <p class="mono kick" style="color: #6EA8FE; margin-bottom: 6px;">Emergency Entrance · Gate 2</p>
-              <p class="h">THE DOOR TO CARE <br><span>NEVER LOCKS.</span></p>
-              <p class="sub">24/7 dedicated trauma, cardiac, and stroke teams ready on site.</p>
+              <p class="h">THE DOOR TO CARE <br><span>NEVER CLOSES.</span></p>
+              <p class="sub">Emergency and trauma teams are available around the clock.</p>
             </div>
           </div>
           <div class="cap" data-cap="2">
             <div class="text-box">
               <p class="mono kick" style="color: #6EA8FE; margin-bottom: 6px;">Central Wing · Level 0</p>
               <p class="h">CARE DESIGNED <br><span>AROUND YOU.</span></p>
-              <p class="sub">Unified digital diagnostics with same-day specialist reviews.</p>
+              <p class="sub">Find the right specialist and plan your next step with our patient care team.</p>
             </div>
           </div>
         </div>
 
-        <div class="badge-247">
+        <a class="badge-247" href="tel:04455500100" aria-label="Call the 24/7 emergency hotline at 044 5550 0100">
           <b>24/7</b>
-          <span class="mono">Emergency Open</span>
-        </div>
+          <span class="mono">Emergency Open &middot; Call now</span>
+        </a>
       </div>
     </section>
 
@@ -346,12 +359,12 @@
         <div class="surg-content g">
           <p class="mono kick" style="color: #6EA8FE; margin-bottom: 16px;">Precision Medicine · Diagnostics</p>
           <p class="statement" id="statement">
-            Medicine becomes powerful when technology and human attention move together.
+            Advanced medicine works best when technology and human attention move together.
           </p>
           <div class="surg-metrics">
-            <div><b>9</b><span>Operating Theatres</span></div>
-            <div><b>1 : 2</b><span>Surgeon to Nurse Ratio</span></div>
-            <div><b>45 min</b><span>Door-to-Cath Lab Target</span></div>
+            <div><b>Advanced</b><span>Diagnostic Imaging</span></div>
+            <div><b>Connected</b><span>Multispecialty Teams</span></div>
+            <div><b>24/7</b><span>Emergency Support</span></div>
           </div>
         </div>
       </div>
@@ -403,11 +416,12 @@
           </div>
         </div>
         <form id="bookForm">
-          <label>Full Name <input type="text" placeholder="Priya Raman" required></label>
-          <label>Phone Number <input type="tel" placeholder="+91 98400 00000" required></label>
+          <label>Full Name <input type="text" name="name" autocomplete="name" placeholder="Your full name" minlength="2" required></label>
+          <label>Phone Number <input type="tel" name="phone" autocomplete="tel" inputmode="tel" placeholder="+91 98400 00000" pattern="[+0-9()\s-]{8,20}" title="Enter a valid phone number" required></label>
           <div class="form-row">
             <label>Department
-              <select>
+              <select name="department" required>
+                <option value="" disabled selected>Select a department</option>
                 <option>Cardiology</option>
                 <option>Neurology</option>
                 <option>Oncology</option>
@@ -419,8 +433,8 @@
             </label>
             <label>Preferred Date <input type="date" required id="fDate"></label>
           </div>
-          <button class="btn" type="submit" style="justify-self:start; margin-top: 6px;">Request Visit →</button>
-          <p id="bookOut" class="mono" style="color:#6EA8FE; min-height: 18px;"></p>
+          <button class="btn" type="submit" style="justify-self:start; margin-top: 6px;">Request Visit &rarr;</button>
+          <p id="bookOut" class="mono" role="status" aria-live="polite" style="color:#6EA8FE; min-height: 18px;"></p>
         </form>
       </div>
     </section>
@@ -431,17 +445,17 @@
       <section class="footer-brand-column" aria-label="Hospital information">
         <a class="footer-brand" href="#top"><span class="brand-dot" aria-hidden="true"></span>Metro Health Hospital</a>
         <p class="footer-mission">Advanced, compassionate care for every patient, supported by expert teams and leading clinical technology.</p>
-        <a class="footer-emergency" href="tel:+914455500100"><strong>24/7 Emergency Hotline</strong><span>Call 044 5550 0100</span></a>
-        <p class="footer-small" style="margin-top:12px;">Ambulance dispatch: <a href="tel:108" style="color:inherit; text-decoration:none;">108</a> &middot; Hospital ambulance: <a href="tel:+914455500108" style="color:inherit; text-decoration:none;">044 5550 0108</a></p>
+        <a href="tel:04455500100" class="hotline-btn"><strong>24/7 Emergency Hotline</strong><span>Call 044 5550 0100</span></a>
+        <p class="footer-small" style="margin-top:12px;">Ambulance dispatch: <a href="tel:108">108</a> &middot; Hospital ambulance: <a href="tel:04455500108">044 5550 0108</a></p>
       </section>
       <nav class="footer-column" aria-label="Quick links"><h2>Quick Links</h2><ul class="footer-links"><li><a href="#departments">Departments</a></li><li><a href="#surgery">Surgery</a></li><li><a href="#book">Doctor Directory</a></li><li><a href="#book">Patient Portal</a></li><li><a href="#book">Tele-consultation</a></li></ul></nav>
       <nav class="footer-column" aria-label="Clinical centres"><h2>Clinical Centres</h2><ul class="footer-links"><li><a href="#departments">Cardiology</a></li><li><a href="#departments">Neurology</a></li><li><a href="#departments">Oncology</a></li><li><a href="#departments">Orthopedics</a></li><li><a href="#departments">Pediatrics</a></li><li><a href="#departments">24/7 Trauma Care</a></li></ul></nav>
       <section class="footer-column" aria-label="Contact and address"><h2>Contact &amp; Address</h2><ul class="footer-contact">
         <li><address>Metro Health Hospital<br>No. 24, Anna Salai, Teynampet<br>Chennai, Tamil Nadu 600018, India</address></li>
-        <li><a href="mailto:care@cityhealthhospital.in">care@cityhealthhospital.in</a></li><li><a href="mailto:appointments@cityhealthhospital.in">appointments@cityhealthhospital.in</a></li><li><a href="tel:+914455500100">+91 44 5550 0100</a></li><li>Visiting hours: 10:00&ndash;12:00 &amp; 16:00&ndash;19:00</li>
+        <li><a href="mailto:care@metrohealthhospital.in">care@metrohealthhospital.in</a></li><li><a href="mailto:appointments@metrohealthhospital.in">appointments@metrohealthhospital.in</a></li><li><a href="tel:+914455500100">+91 44 5550 0100</a></li><li>Visiting hours: 10:00&ndash;12:00 &amp; 16:00&ndash;19:00</li>
       </ul></section>
     </div>
-    <div class="footer-bottom g"><span class="mono">&copy; 2026 Metro Health Hospital &middot; Chennai</span><ul class="footer-legal"><li><a href="#terms">Terms of Service</a></li><li><a href="#privacy">Privacy Policy</a></li><li><a href="#patient-rights">Patient Rights</a></li></ul><span class="footer-accreditation"><b>NABH</b> / <b>JCI</b> compliant</span></div>
+    <div class="footer-bottom g"><span class="mono">&copy; 2026 Metro Health Hospital &middot; Chennai</span><ul class="footer-legal"><li><a href="#terms" class="legal-link">Terms of Service</a></li><li><a href="#privacy" class="legal-link">Privacy Policy</a></li><li><a href="#patient-rights" class="legal-link">Patient Rights</a></li></ul><span class="footer-accreditation"><b>NABH</b> / <b>JCI</b> compliant</span></div>
   </footer>
 
   <script>
@@ -482,6 +496,9 @@
 
     // Ultra-Smooth Physics Scrubbing Engine (LERP Animation Loop)
     const heroVid = document.getElementById('heroVid');
+    const heroMediaQuery = window.matchMedia('(max-width: 768px)');
+    let mobileHero = heroMediaQuery.matches;
+    let heroFrame = 0;
     let targetTime = 0;
     let currentTime = 0;
     let targetScale = 1;
@@ -504,15 +521,32 @@
         }
         heroVid.style.transform = `scale(${currentScale})`;
       }
-      requestAnimationFrame(renderLoop);
+      heroFrame = requestAnimationFrame(renderLoop);
     }
-    requestAnimationFrame(renderLoop);
+
+    function configureHeroPlayback() {
+      mobileHero = heroMediaQuery.matches;
+      if (mobileHero) {
+        cancelAnimationFrame(heroFrame);
+        heroFrame = 0;
+        heroVid.loop = true;
+        heroVid.autoplay = true;
+        heroVid.play().catch(() => {});
+      } else {
+        heroVid.pause();
+        heroVid.loop = false;
+        heroVid.autoplay = false;
+        if (!heroFrame) heroFrame = requestAnimationFrame(renderLoop);
+      }
+    }
+    configureHeroPlayback();
+    heroMediaQuery.addEventListener('change', configureHeroPlayback);
 
     function onScroll() {
       const stageRect = stage.getBoundingClientRect();
       const stageProgress = Math.max(0, Math.min(1, -stageRect.top / (stageRect.height - window.innerHeight)));
 
-      if (heroVid && heroVid.duration) {
+      if (!mobileHero && heroVid && heroVid.duration) {
         targetTime = stageProgress * heroVid.duration;
         targetScale = 1 + (stageProgress * 0.08);
       }
@@ -543,13 +577,19 @@
 
     window.addEventListener('scroll', onScroll, { passive: true });
     window.addEventListener('resize', onScroll);
+    onScroll();
+
+    document.querySelectorAll('.legal-link').forEach(link => {
+      link.addEventListener('click', event => event.preventDefault());
+    });
 
     // Live Clock & Hours check
     function updateHours() {
-      const d = new Date();
-      const pad = n => ('0' + n).slice(-2);
-      document.getElementById('clock').textContent = `${pad(d.getHours())}:${pad(d.getMinutes())}`;
-      const m = d.getHours() * 60 + d.getMinutes();
+      const parts = new Intl.DateTimeFormat('en-IN', { timeZone: 'Asia/Kolkata', hour: '2-digit', minute: '2-digit', hourCycle: 'h23' }).formatToParts(new Date());
+      const hours = Number(parts.find(part => part.type === 'hour').value);
+      const minutes = Number(parts.find(part => part.type === 'minute').value);
+      document.getElementById('clock').textContent = `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}`;
+      const m = hours * 60 + minutes;
       document.querySelectorAll('.sched-list li').forEach(li => {
         const s = +li.dataset.s, e = +li.dataset.e;
         const open = s < e ? (m >= s && m < e) : (m >= s || m < e);
@@ -561,14 +601,16 @@
 
     // Date picker setup
     const dateInput = document.getElementById('fDate');
-    const tomorrow = new Date(Date.now() + 864e5);
-    dateInput.min = tomorrow.toISOString().split('T')[0];
+    const tomorrow = new Date();
+    tomorrow.setDate(tomorrow.getDate() + 1);
+    dateInput.min = `${tomorrow.getFullYear()}-${String(tomorrow.getMonth() + 1).padStart(2, '0')}-${String(tomorrow.getDate()).padStart(2, '0')}`;
     dateInput.value = dateInput.min;
 
     // Booking submission
     document.getElementById('bookForm').addEventListener('submit', (e) => {
       e.preventDefault();
-      document.getElementById('bookOut').textContent = "Request received! We will confirm your slot shortly via SMS/Call.";
+      const patientName = new FormData(e.currentTarget).get('name').trim();
+      document.getElementById('bookOut').textContent = `Thank you, ${patientName}. Your request is ready for our team to confirm by phone.`;
     });
   </script>
 </body>
