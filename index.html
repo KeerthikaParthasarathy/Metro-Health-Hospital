@@ -471,7 +471,7 @@
     <!-- Hero Section -->
     <section class="stage" id="stage">
       <div class="pin shade">
-        <video class="video-bg" id="heroVid" muted playsinline preload="auto" poster="https://images.unsplash.com/photo-1579684385127-1ef15d508118?auto=format&fit=crop&w=1920&q=80" aria-hidden="true">
+        <video class="video-bg" id="heroVideo" muted playsinline preload="auto" poster="https://images.unsplash.com/photo-1579684385127-1ef15d508118?auto=format&fit=crop&w=1920&q=80" aria-hidden="true">
           <source src="hero-video.mp4" type="video/mp4">
         </video>
         
@@ -646,7 +646,7 @@
     const words = statementEl.querySelectorAll('.w');
 
     // Ultra-Smooth Physics Scrubbing Engine (LERP Animation Loop)
-    const heroVid = document.getElementById('heroVid');
+    const heroVid = document.getElementById('heroVideo');
     const heroMediaQuery = window.matchMedia('(max-width: 768px)');
     let mobileHero = heroMediaQuery.matches;
     let heroFrame = 0;
@@ -842,93 +842,63 @@
 
 
   <script>
-    // Ambient sound is synthesized only after an explicit user gesture.
+    // Native hero-video audio: muted at load, enabled only from the sound control.
     (() => {
+      const heroVideo = document.getElementById('heroVideo');
       const toggle = document.getElementById('soundToggle');
       const label = document.getElementById('soundLabel');
-      const AudioContextClass = window.AudioContext || window.webkitAudioContext;
-      let audioContext = null;
-      let masterGain = null;
-      let suspendTimer = 0;
-      let isBusy = false;
+      const mobileQuery = window.matchMedia('(max-width: 768px)');
+      let volumeFrame = 0;
 
-      function createAmbientSound() {
-        if (audioContext) return;
-        if (!AudioContextClass) throw new Error('Web Audio is unavailable in this browser.');
-
-        audioContext = new AudioContextClass();
-        masterGain = audioContext.createGain();
-        masterGain.gain.setValueAtTime(0, audioContext.currentTime);
-        masterGain.connect(audioContext.destination);
-
-        const lowPass = audioContext.createBiquadFilter();
-        lowPass.type = 'lowpass';
-        lowPass.frequency.setValueAtTime(520, audioContext.currentTime);
-        lowPass.Q.setValueAtTime(0.45, audioContext.currentTime);
-        lowPass.connect(masterGain);
-
-        // Soft A/E harmonic pad with a very slow pitch drift for a calm ambient bed.
-        const lfo = audioContext.createOscillator();
-        const lfoDepth = audioContext.createGain();
-        lfo.type = 'sine';
-        lfo.frequency.setValueAtTime(0.08, audioContext.currentTime);
-        lfoDepth.gain.setValueAtTime(2.5, audioContext.currentTime);
-        lfo.connect(lfoDepth);
-        lfo.start();
-
-        [[110, 0.12], [164.81, 0.075], [220, 0.035]].forEach(([frequency, level]) => {
-          const tone = audioContext.createOscillator();
-          const toneGain = audioContext.createGain();
-          tone.type = 'sine';
-          tone.frequency.setValueAtTime(frequency, audioContext.currentTime);
-          toneGain.gain.setValueAtTime(level, audioContext.currentTime);
-          lfoDepth.connect(tone.detune);
-          tone.connect(toneGain);
-          toneGain.connect(lowPass);
-          tone.start();
-        });
-      }
-
-      function fadeMasterTo(value, duration = 0.9) {
-        const now = audioContext.currentTime;
-        const gain = masterGain.gain;
-        const current = gain.value;
-        gain.cancelScheduledValues(now);
-        gain.setValueAtTime(current, now);
-        gain.linearRampToValueAtTime(value, now + duration);
-      }
+      heroVideo.muted = true;
+      heroVideo.volume = 0;
 
       function setSoundState(enabled) {
         toggle.setAttribute('aria-pressed', String(enabled));
         label.textContent = enabled ? 'Sound On' : 'Sound Off';
-        toggle.title = enabled ? 'Ambient sound is on' : 'Ambient sound is off';
+        toggle.title = enabled ? 'Hero video sound is on' : 'Hero video sound is off';
+      }
+
+      function rampVolume(target, duration = 900) {
+        window.cancelAnimationFrame(volumeFrame);
+        const startVolume = heroVideo.volume;
+        const startedAt = performance.now();
+        function step(now) {
+          const progress = Math.min(1, (now - startedAt) / duration);
+          const eased = progress * progress * (3 - 2 * progress);
+          heroVideo.volume = startVolume + (target - startVolume) * eased;
+          if (progress < 1) volumeFrame = window.requestAnimationFrame(step);
+          else volumeFrame = 0;
+        }
+        volumeFrame = window.requestAnimationFrame(step);
       }
 
       toggle.addEventListener('click', async () => {
-        if (isBusy) return;
         const turnOn = toggle.getAttribute('aria-pressed') !== 'true';
-        isBusy = true;
         toggle.disabled = true;
-        window.clearTimeout(suspendTimer);
-
         try {
-          createAmbientSound();
           if (turnOn) {
-            await audioContext.resume();
-            fadeMasterTo(0.4);
+            heroVideo.volume = 0;
+            heroVideo.muted = false;
+            await heroVideo.play();
+            rampVolume(0.7);
             setSoundState(true);
           } else {
-            fadeMasterTo(0);
+            window.cancelAnimationFrame(volumeFrame);
+            volumeFrame = 0;
+            heroVideo.muted = true;
+            heroVideo.volume = 0;
+            if (!mobileQuery.matches) heroVideo.pause();
             setSoundState(false);
-            suspendTimer = window.setTimeout(() => {
-              if (toggle.getAttribute('aria-pressed') === 'false') audioContext.suspend();
-            }, 1000);
           }
         } catch (error) {
+          window.cancelAnimationFrame(volumeFrame);
+          volumeFrame = 0;
+          heroVideo.muted = true;
+          heroVideo.volume = 0;
           setSoundState(false);
-          toggle.title = 'Ambient sound could not be started in this browser';
+          toggle.title = 'Hero video audio could not be started';
         } finally {
-          isBusy = false;
           toggle.disabled = false;
         }
       });
