@@ -1,0 +1,575 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Metro Health Hospital · Multispeciality Care</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Manrope:wght@500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+  
+  <style>
+    :root {
+      --navy: #0A1931;
+      --royal: #014BAA;
+      --royal-glow: rgba(1, 75, 170, 0.45);
+      --cream: #F8F3F0;
+      --white: #FFFFFF;
+      --muted: #8FA2B7;
+      --line: rgba(255, 255, 255, 0.12);
+      --font-heading: 'Manrope', sans-serif;
+      --font-body: 'Inter', sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
+      color-scheme: dark;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--navy);
+      color: var(--cream);
+      font-family: var(--font-body);
+      font-size: 16px;
+      line-height: 1.6;
+      overflow-x: clip;
+      -webkit-font-smoothing: antialiased;
+      text-rendering: optimizeLegibility;
+    }
+
+    .g { 
+      padding-left: max(clamp(16px, 4vw, 56px), env(safe-area-inset-left)); 
+      padding-right: max(clamp(16px, 4vw, 56px), env(safe-area-inset-right)); 
+    }
+    .mono { font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; }
+
+    /* Glass Navbar */
+    .nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding-block: 16px; transition: all 0.3s ease;
+      background: rgba(10, 25, 49, 0.75);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--line);
+    }
+    .brand {
+      display: flex; align-items: center; gap: 10px; text-decoration: none;
+      font-family: var(--font-heading); font-weight: 800; font-size: 18px;
+      letter-spacing: -0.01em; color: var(--white);
+    }
+    .brand-dot {
+      width: 10px; height: 10px; border-radius: 50%;
+      background: #3B82F6; box-shadow: 0 0 12px #3B82F6;
+    }
+    .nav-links { display: flex; gap: clamp(16px, 2.5vw, 32px); }
+    .nav-links a {
+      text-decoration: none; font-family: var(--font-mono); font-size: 12px;
+      letter-spacing: 0.1em; text-transform: uppercase; color: var(--cream); opacity: 0.8;
+      transition: opacity 0.2s, color 0.2s;
+    }
+    .nav-links a:hover { opacity: 1; color: var(--white); }
+    .btn {
+      display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+      background: var(--royal); color: var(--white); text-decoration: none;
+      padding: 10px 20px; border-radius: 6px; font-family: var(--font-mono);
+      font-size: 11px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase;
+      cursor: pointer; border: 1px solid rgba(255,255,255,0.2);
+      box-shadow: 0 4px 16px var(--royal-glow); transition: transform 0.2s, background 0.2s;
+    }
+    .btn:hover { background: #003e8c; transform: translateY(-1px); }
+
+    /* Hero Section with Ultra-Smooth Scrubbing */
+    .stage { height: 350svh; position: relative; }
+    .pin { position: sticky; top: 0; height: 100svh; overflow: hidden; }
+    
+    .video-bg {
+      position: absolute; inset: 0; width: 100%; height: 100%;
+      object-fit: cover; opacity: 1;
+      filter: contrast(1.08) saturate(1.12) brightness(1.02);
+      image-rendering: -webkit-optimize-contrast;
+      will-change: transform;
+      transform-origin: center center;
+    }
+    
+    /* Crystal Clear Subtle Vignette */
+    .pin.shade::after {
+      content: ""; position: absolute; inset: 0;
+      background: radial-gradient(circle at 50% 50%, rgba(10, 25, 49, 0) 30%, rgba(10, 25, 49, 0.24) 75%, rgba(10, 25, 49, 0.58) 100%),
+                  linear-gradient(to top, rgba(10, 25, 49, 0.48) 0%, transparent 46%);
+      pointer-events: none;
+    }
+    
+    .caps { position: absolute; inset: 0; z-index: 10; pointer-events: none; }
+    .cap {
+      position: absolute; left: 0; right: 0; bottom: 8svh;
+      will-change: opacity, transform;
+      opacity: 0; transform: translateY(16px);
+      transition: opacity 0.4s ease, transform 0.4s ease;
+    }
+    .cap.active {
+      opacity: 1; transform: translateY(0);
+    }
+    
+    .cap .text-box {
+      background: rgba(10, 25, 49, 0.62);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid rgba(255, 255, 255, 0.16);
+      padding: clamp(16px, 3vw, 24px) clamp(20px, 3.5vw, 32px);
+      border-radius: 12px;
+      display: inline-block;
+      max-width: min(600px, 90vw);
+      box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+    }
+    .cap h1, .cap .h {
+      font-family: var(--font-heading); font-weight: 800;
+      font-size: clamp(1.6rem, 3.2vw, 2.8rem) !important;
+      line-height: 1.16 !important;
+      letter-spacing: -0.02em; color: var(--white);
+      margin-bottom: 6px;
+    }
+    .cap h1 span, .cap .h span {
+      background: linear-gradient(135deg, var(--white) 40%, #6EA8FE 100%);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    }
+    .cap p.sub {
+      margin-top: 6px; max-width: 44ch; color: #D1DDEB;
+      font-size: clamp(13px, 1.2vw, 15px); font-weight: 300;
+    }
+    
+    .badge-247 {
+      position: absolute; z-index: 10;
+      right: max(clamp(16px, 4vw, 56px), env(safe-area-inset-right));
+      bottom: 8svh; text-align: right;
+      background: rgba(10, 25, 49, 0.6);
+      backdrop-filter: blur(12px);
+      border: 1px solid var(--line);
+      padding: 12px 20px;
+      border-radius: 10px;
+    }
+    .badge-247 b {
+      display: block; font-family: var(--font-heading); font-weight: 800;
+      font-size: clamp(2rem, 4vw, 3.6rem); line-height: 0.9; color: var(--white);
+    }
+    .badge-247 span { color: #6EA8FE; letter-spacing: 0.14em; }
+
+    /* Surgery Section */
+    .surg { height: 260svh; position: relative; background: #071224; }
+    .surg .pin { display: flex; align-items: center; }
+    .surg-img {
+      position: absolute; inset: 0; width: 100%; height: 100%;
+      object-fit: cover; opacity: 0.22; filter: grayscale(40%);
+    }
+    .surg-content { position: relative; z-index: 5; width: 100%; }
+    .statement {
+      font-family: var(--font-heading); font-size: clamp(1.8rem, 4.2vw, 4rem);
+      font-weight: 700; line-height: 1.15; letter-spacing: -0.02em; max-width: 20ch; color: var(--white);
+    }
+    .statement .w { opacity: 0.22; transition: opacity 0.2s ease; }
+    .statement .w.on { opacity: 1; color: var(--white); }
+    .statement .w.highlight { color: #6EA8FE; text-shadow: 0 0 16px var(--royal-glow); }
+    .surg-metrics { display: flex; gap: clamp(20px, 4vw, 70px); margin-top: 40px; flex-wrap: wrap; }
+    .surg-metrics b {
+      display: block; font-family: var(--font-heading); font-weight: 800;
+      font-size: clamp(1.8rem, 3.5vw, 3.2rem); color: var(--white); line-height: 1;
+    }
+    .surg-metrics span { font-family: var(--font-mono); font-size: 11px; color: var(--muted); letter-spacing: 0.12em; text-transform: uppercase; }
+
+    /* Department Horizontal Bento Track */
+    .dept { height: 420svh; position: relative; background: var(--navy); }
+    .dept .pin { display: flex; flex-direction: column; justify-content: center; gap: 24px; }
+    .dept-top { display: flex; justify-content: space-between; align-items: flex-end; padding-top: 40px; }
+    .dept-top h2 { font-family: var(--font-heading); font-size: clamp(1.8rem, 3.8vw, 3.4rem); font-weight: 800; color: var(--white); }
+    .trackwrap { overflow: hidden; width: 100%; }
+    .track { display: flex; gap: 20px; width: max-content; will-change: transform; }
+    .panel {
+      position: relative; flex: none; width: min(30vw, 380px); height: min(58svh, 520px);
+      border-radius: 12px; overflow: hidden; background: #0D203D;
+      border: 1px solid var(--line); transition: border-color 0.3s;
+    }
+    .panel:hover { border-color: #6EA8FE; }
+    .panel img {
+      position: absolute; inset: 0; width: 100%; height: 100%;
+      object-fit: cover; opacity: 0.65; transition: transform 0.4s ease;
+    }
+    .panel:hover img { transform: scale(1.04); }
+    .panel::after {
+      content: ""; position: absolute; inset: 0;
+      background: linear-gradient(to top, rgba(10, 25, 49, 0.95) 0%, rgba(10, 25, 49, 0.2) 60%, transparent 100%);
+    }
+    .panel-meta { position: absolute; top: 16px; left: 16px; right: 16px; z-index: 5; display: flex; justify-content: space-between; color: #6EA8FE; }
+    .panel-info { position: absolute; bottom: 20px; left: 20px; right: 20px; z-index: 5; }
+    .panel-info h3 { font-family: var(--font-heading); font-size: 22px; font-weight: 700; color: var(--white); margin-bottom: 4px; }
+    .panel-info p { color: var(--muted); font-size: 13.5px; line-height: 1.45; }
+
+    /* Hours Section */
+    .hours { padding-block: clamp(60px, 8vw, 120px); background: #071224; border-top: 1px solid var(--line); }
+    .hours-grid { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(24px, 5vw, 80px); align-items: end; }
+    .hours h2 { font-family: var(--font-heading); font-size: clamp(2rem, 4.8vw, 4.2rem); font-weight: 800; line-height: 1; color: var(--white); }
+    .sched-list { list-style: none; border-top: 1px solid var(--line); margin-top: 20px; }
+    .sched-list li {
+      display: grid; grid-template-columns: 110px 1fr auto; gap: 12px;
+      align-items: center; padding: 14px 0; border-bottom: 1px solid var(--line);
+    }
+    .sched-list .time { color: var(--muted); font-size: 12px; }
+    .sched-list .dept-name { font-weight: 500; color: var(--cream); font-size: 15px; }
+    .chip {
+      font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase;
+      padding: 4px 8px; border-radius: 4px; border: 1px solid var(--line); color: var(--muted);
+    }
+    .sched-list li.open .chip { background: var(--royal); color: var(--white); border-color: #6EA8FE; }
+    .sched-list li.open .dept-name { color: var(--white); font-weight: 600; }
+
+    /* Booking Form Section */
+    .book { padding-block: clamp(60px, 8vw, 120px); background: var(--navy); border-top: 1px solid var(--line); }
+    .book-grid { display: grid; grid-template-columns: 1fr 1.1fr; gap: clamp(24px, 5vw, 70px); }
+    .book h2 { font-family: var(--font-heading); font-size: clamp(2rem, 4.2vw, 3.8rem); font-weight: 800; color: var(--white); line-height: 1.05; margin-bottom: 16px; }
+    form { display: grid; gap: 16px; }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+    label { font-family: var(--font-mono); font-size: 11px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--muted); display: grid; gap: 6px; }
+    input, select {
+      font-family: var(--font-body); font-size: 14.5px; color: var(--white);
+      background: rgba(13, 32, 61, 0.7); border: 1px solid var(--line);
+      padding: 12px 14px; border-radius: 6px; outline: none; transition: border-color 0.2s;
+    }
+    input:focus, select:focus { border-color: #6EA8FE; box-shadow: 0 0 10px var(--royal-glow); }
+    select option { background: var(--navy); color: var(--white); }
+
+    footer { background: #071224; border-top: 1px solid rgba(255, 255, 255, 0.08); color: var(--muted); font-size: 13px; }
+    .footer-main { display: grid; grid-template-columns: 1.35fr 1fr 1fr 1.2fr; gap: clamp(28px, 4vw, 64px); padding-top: 64px; padding-bottom: 52px; }
+    .footer-brand { display: inline-flex; align-items: center; gap: 10px; color: var(--white); font: 800 18px var(--font-heading); text-decoration: none; }
+    .footer-brand .brand-dot { flex: none; }
+    .footer-mission { max-width: 32ch; margin: 16px 0 20px; color: #9AABC0; line-height: 1.7; }
+    .footer-emergency { display: inline-flex; flex-direction: column; gap: 3px; padding: 11px 14px; border: 1px solid rgba(110, 168, 254, 0.35); border-radius: 8px; background: rgba(1, 75, 170, 0.16); color: var(--white); text-decoration: none; transition: border-color 0.2s, background 0.2s; }
+    .footer-emergency:hover { border-color: #6EA8FE; background: rgba(1, 75, 170, 0.28); }
+    .footer-emergency strong { font: 700 13px var(--font-heading); }
+    .footer-emergency span, .footer-small { color: #9AABC0; font-size: 12px; }
+    .footer-column h2 { margin: 4px 0 17px; color: var(--white); font: 700 13px var(--font-heading); letter-spacing: 0.04em; }
+    .footer-links { display: grid; gap: 10px; list-style: none; }
+    .footer-links a { color: #9AABC0; text-decoration: none; transition: color 0.2s; }
+    .footer-links a:hover, .footer-links a:focus-visible { color: #6EA8FE; }
+    .footer-contact { display: grid; gap: 11px; list-style: none; }
+    .footer-contact li { color: #9AABC0; }
+    .footer-contact a { color: inherit; text-decoration: none; transition: color 0.2s; }
+    .footer-contact a:hover { color: #6EA8FE; }
+    .footer-contact address { font-style: normal; line-height: 1.6; }
+    .footer-bottom { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px; padding-top: 18px; padding-bottom: 20px; border-top: 1px solid rgba(255, 255, 255, 0.08); }
+    .footer-legal { display: flex; flex-wrap: wrap; gap: 18px; list-style: none; }
+    .footer-legal a { color: #9AABC0; text-decoration: none; transition: color 0.2s; }
+    .footer-legal a:hover { color: #6EA8FE; }
+    .footer-accreditation { display: inline-flex; align-items: center; gap: 8px; padding: 6px 10px; border: 1px solid rgba(255,255,255,0.12); border-radius: 999px; color: #C7D4E4; font: 600 10px var(--font-mono); letter-spacing: 0.08em; text-transform: uppercase; }
+    .footer-accreditation b { color: #6EA8FE; }
+
+    /* Mobile & Tablet Optimizations */
+    @media(max-width: 900px) {
+      .nav-links { display: none; }
+      .hours-grid, .book-grid { grid-template-columns: 1fr; }
+      .dept { height: auto; }
+      .dept .pin { position: static; height: auto; padding-block: 50px; }
+      .trackwrap { overflow-x: auto; scroll-snap-type: x mandatory; padding-bottom: 16px; }
+      .track { padding-inline: 16px; }
+      .panel { width: 78vw; max-width: 320px; height: 420px; scroll-snap-align: start; }
+      .badge-247 { right: 16px; bottom: 16px; padding: 8px 14px; }
+      .cap .text-box { max-width: calc(100vw - 32px); }
+    }
+    @media(max-width: 600px) {
+      .form-row { grid-template-columns: 1fr; }
+      .sched-list li { grid-template-columns: 90px 1fr auto; font-size: 13px; }
+      .badge-247 { display: none; }
+      .footer-main { grid-template-columns: 1fr 1fr; padding-top: 44px; padding-bottom: 36px; }
+      .footer-brand-column { grid-column: 1 / -1; }
+      .footer-bottom { align-items: flex-start; }
+    }
+    @media(max-width: 380px) { .footer-main { grid-template-columns: 1fr; } .footer-brand-column { grid-column: auto; } }
+  </style>
+</head>
+<body>
+
+  <!-- Navigation -->
+  <header class="nav g">
+    <a class="brand" href="#top">
+      <span class="brand-dot"></span>
+      Metro Health Hospital
+    </a>
+    <nav class="nav-links">
+      <a href="#departments">Departments</a>
+      <a href="#surgery">Surgery</a>
+      <a href="#hours">Hours</a>
+      <a href="#book">Appointments</a>
+    </nav>
+    <a class="btn" href="#book">Book a Visit</a>
+  </header>
+
+  <main id="top">
+    <!-- Hero Section -->
+    <section class="stage" id="stage">
+      <div class="pin shade">
+        <video class="video-bg" id="heroVid" muted playsinline preload="auto">
+          <source src="hero-video.mp4" type="video/mp4">
+        </video>
+        
+        <div class="caps g">
+          <div class="cap active" data-cap="0">
+            <div class="text-box">
+              <p class="mono kick" style="color: #6EA8FE; margin-bottom: 6px;">Metro Health Hospital · Advanced Care</p>
+              <h1>YOUR HEALTH, <br><span>OUR GREATEST PRIORITY.</span></h1>
+              <p class="sub">Multispeciality clinical excellence powered by high-precision medical technology.</p>
+            </div>
+          </div>
+          <div class="cap" data-cap="1">
+            <div class="text-box">
+              <p class="mono kick" style="color: #6EA8FE; margin-bottom: 6px;">Emergency Entrance · Gate 2</p>
+              <p class="h">THE DOOR TO CARE <br><span>NEVER LOCKS.</span></p>
+              <p class="sub">24/7 dedicated trauma, cardiac, and stroke teams ready on site.</p>
+            </div>
+          </div>
+          <div class="cap" data-cap="2">
+            <div class="text-box">
+              <p class="mono kick" style="color: #6EA8FE; margin-bottom: 6px;">Central Wing · Level 0</p>
+              <p class="h">CARE DESIGNED <br><span>AROUND YOU.</span></p>
+              <p class="sub">Unified digital diagnostics with same-day specialist reviews.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="badge-247">
+          <b>24/7</b>
+          <span class="mono">Emergency Open</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Surgery Statement -->
+    <section class="surg" id="surgery">
+      <div class="pin">
+        <img class="surg-img" src="https://images.unsplash.com/photo-1579684385127-1ef15d508118?auto=format&fit=crop&w=1920&q=80" alt="Surgical Suite" loading="lazy">
+        <div class="surg-content g">
+          <p class="mono kick" style="color: #6EA8FE; margin-bottom: 16px;">Precision Medicine · Diagnostics</p>
+          <p class="statement" id="statement">
+            Medicine becomes powerful when technology and human attention move together.
+          </p>
+          <div class="surg-metrics">
+            <div><b>9</b><span>Operating Theatres</span></div>
+            <div><b>1 : 2</b><span>Surgeon to Nurse Ratio</span></div>
+            <div><b>45 min</b><span>Door-to-Cath Lab Target</span></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Bento Department Carousel -->
+    <section class="dept" id="departments">
+      <div class="pin">
+        <div class="dept-top g">
+          <div>
+            <p class="mono" style="color:#6EA8FE; margin-bottom: 6px;">Specialised Centres</p>
+            <h2>Seven Departments, One Roof.</h2>
+          </div>
+          <div class="mono" style="color: var(--muted);"><b id="dIdx" style="color:var(--white);">01</b> / 07</div>
+        </div>
+        <div class="trackwrap" id="trackwrap">
+          <div class="track g" id="track"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Operating Hours -->
+    <section class="hours g" id="hours">
+      <div class="hours-grid">
+        <div>
+          <p class="mono" style="color: #6EA8FE; margin-bottom: 12px;">Round-the-Clock Reliability</p>
+          <h2>Care Never <br><span style="color:#6EA8FE;">Clocks Out.</span></h2>
+          <p style="margin-top: 18px; color: var(--muted);" id="now">Local Time: <b id="clock" style="color:var(--white);">--:--</b></p>
+        </div>
+        <ul class="sched-list">
+          <li data-s="0" data-e="1440"><span class="time mono">00:00 – 24:00</span><span class="dept-name">Emergency & Trauma</span><span class="chip">Open 24/7</span></li>
+          <li data-s="360" data-e="1320"><span class="time mono">06:00 – 22:00</span><span class="dept-name">Imaging & Diagnostics</span><span class="chip">Daytime</span></li>
+          <li data-s="420" data-e="1380"><span class="time mono">07:00 – 23:00</span><span class="dept-name">Central Pharmacy</span><span class="chip">Daytime</span></li>
+          <li data-s="480" data-e="1200"><span class="time mono">08:00 – 20:00</span><span class="dept-name">Outpatient Clinics</span><span class="chip">Daytime</span></li>
+          <li data-s="540" data-e="1020"><span class="time mono">09:00 – 17:00</span><span class="dept-name">Specialist Consultations</span><span class="chip">By Booking</span></li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- Booking Form -->
+    <section class="book g" id="book">
+      <div class="book-grid">
+        <div>
+          <p class="mono" style="color: #6EA8FE; margin-bottom: 14px;">Direct Patient Enquiry</p>
+          <h2>Schedule Your <br>Consultation.</h2>
+          <p style="color: var(--muted); max-width: 40ch; margin-bottom: 20px;">Select your preferred department and schedule. Our front desk coordinates with doctors directly.</p>
+          <div class="mono" style="color: var(--muted);">
+            Emergency Helpline: <b style="color:var(--white); font-size:16px;">044 5550 0100</b>
+          </div>
+        </div>
+        <form id="bookForm">
+          <label>Full Name <input type="text" placeholder="Priya Raman" required></label>
+          <label>Phone Number <input type="tel" placeholder="+91 98400 00000" required></label>
+          <div class="form-row">
+            <label>Department
+              <select>
+                <option>Cardiology</option>
+                <option>Neurology</option>
+                <option>Oncology</option>
+                <option>Orthopedics</option>
+                <option>Pediatrics</option>
+                <option>Maternity</option>
+                <option>Emergency Care</option>
+              </select>
+            </label>
+            <label>Preferred Date <input type="date" required id="fDate"></label>
+          </div>
+          <button class="btn" type="submit" style="justify-self:start; margin-top: 6px;">Request Visit →</button>
+          <p id="bookOut" class="mono" style="color:#6EA8FE; min-height: 18px;"></p>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="footer-main g">
+      <section class="footer-brand-column" aria-label="Hospital information">
+        <a class="footer-brand" href="#top"><span class="brand-dot" aria-hidden="true"></span>Metro Health Hospital</a>
+        <p class="footer-mission">Advanced, compassionate care for every patient, supported by expert teams and leading clinical technology.</p>
+        <a class="footer-emergency" href="tel:+914455500100"><strong>24/7 Emergency Hotline</strong><span>Call 044 5550 0100</span></a>
+        <p class="footer-small" style="margin-top:12px;">Ambulance dispatch: <a href="tel:108" style="color:inherit; text-decoration:none;">108</a> &middot; Hospital ambulance: <a href="tel:+914455500108" style="color:inherit; text-decoration:none;">044 5550 0108</a></p>
+      </section>
+      <nav class="footer-column" aria-label="Quick links"><h2>Quick Links</h2><ul class="footer-links"><li><a href="#departments">Departments</a></li><li><a href="#surgery">Surgery</a></li><li><a href="#book">Doctor Directory</a></li><li><a href="#book">Patient Portal</a></li><li><a href="#book">Tele-consultation</a></li></ul></nav>
+      <nav class="footer-column" aria-label="Clinical centres"><h2>Clinical Centres</h2><ul class="footer-links"><li><a href="#departments">Cardiology</a></li><li><a href="#departments">Neurology</a></li><li><a href="#departments">Oncology</a></li><li><a href="#departments">Orthopedics</a></li><li><a href="#departments">Pediatrics</a></li><li><a href="#departments">24/7 Trauma Care</a></li></ul></nav>
+      <section class="footer-column" aria-label="Contact and address"><h2>Contact &amp; Address</h2><ul class="footer-contact">
+        <li><address>Metro Health Hospital<br>No. 24, Anna Salai, Teynampet<br>Chennai, Tamil Nadu 600018, India</address></li>
+        <li><a href="mailto:care@cityhealthhospital.in">care@cityhealthhospital.in</a></li><li><a href="mailto:appointments@cityhealthhospital.in">appointments@cityhealthhospital.in</a></li><li><a href="tel:+914455500100">+91 44 5550 0100</a></li><li>Visiting hours: 10:00&ndash;12:00 &amp; 16:00&ndash;19:00</li>
+      </ul></section>
+    </div>
+    <div class="footer-bottom g"><span class="mono">&copy; 2026 Metro Health Hospital &middot; Chennai</span><ul class="footer-legal"><li><a href="#terms">Terms of Service</a></li><li><a href="#privacy">Privacy Policy</a></li><li><a href="#patient-rights">Patient Rights</a></li></ul><span class="footer-accreditation"><b>NABH</b> / <b>JCI</b> compliant</span></div>
+  </footer>
+
+  <script>
+    const DEPTS = [
+      { n: 'Cardiology', loc: 'Level 3 · East', d: 'Comprehensive cath lab, 3D echocardiography, and arrhythmia care.', img: 'https://images.unsplash.com/photo-1628348068343-c6a848d2b6dd?auto=format&fit=crop&w=800&q=80' },
+      { n: 'Neurology', loc: 'Level 4 · North', d: 'Rapid stroke intervention, neuro-ICU, and spine surgery.', img: 'https://images.unsplash.com/photo-1559757175-5700dde675bc?auto=format&fit=crop&w=800&q=80' },
+      { n: 'Oncology', loc: 'Level 2 · West', d: 'Day-care chemotherapy, precision radiation, and tumour board reviews.', img: 'https://images.unsplash.com/photo-1579154204601-01588f351e67?auto=format&fit=crop&w=800&q=80' },
+      { n: 'Orthopedics', loc: 'Level 1 · East', d: 'Robotic joint replacement, trauma rehabilitation, and sports medicine.', img: 'https://images.unsplash.com/photo-1588776814546-1ffcf47267a5?auto=format&fit=crop&w=800&q=80' },
+      { n: 'Pediatrics', loc: 'Level 1 · South', d: 'Advanced neonatal ICU (NICU) and 24/7 child health emergency care.', img: 'https://images.unsplash.com/photo-1584515979956-d9f6e5d09982?auto=format&fit=crop&w=800&q=80' },
+      { n: 'Maternity', loc: 'Level 5 · South', d: 'Private LDR suites, fetal medicine specialists, and painless delivery.', img: 'https://images.unsplash.com/photo-1531983412531-1f49a365ffed?auto=format&fit=crop&w=800&q=80' },
+      { n: 'Emergency Care', loc: 'Level 0 · Gate 2', d: 'Immediate triage, trauma surgery team, and resuscitation bays.', img: 'https://images.unsplash.com/photo-1516549655169-df83a0774514?auto=format&fit=crop&w=800&q=80' }
+    ];
+
+    // Populate Bento Panels
+    const track = document.getElementById('track');
+    DEPTS.forEach((d, i) => {
+      const el = document.createElement('article');
+      el.className = 'panel';
+      el.innerHTML = `
+        <img src="${d.img}" alt="${d.n}" loading="lazy">
+        <div class="panel-meta mono"><span>D-0${i+1}</span><span>${d.loc}</span></div>
+        <div class="panel-info">
+          <h3>${d.n}</h3>
+          <p>${d.d}</p>
+        </div>
+      `;
+      track.appendChild(el);
+    });
+
+    // Statement Words Highlighting
+    const statementEl = document.getElementById('statement');
+    const statementText = statementEl.innerText;
+    statementEl.innerHTML = statementText.split(' ').map(w => {
+      const isSpecial = ['technology', 'human', 'attention'].includes(w.toLowerCase().replace(/[^a-z]/g, ''));
+      return `<span class="w ${isSpecial ? 'highlight' : ''}">${w}</span>`;
+    }).join(' ');
+    const words = statementEl.querySelectorAll('.w');
+
+    // Ultra-Smooth Physics Scrubbing Engine (LERP Animation Loop)
+    const heroVid = document.getElementById('heroVid');
+    let targetTime = 0;
+    let currentTime = 0;
+    let targetScale = 1;
+    let currentScale = 1;
+    const caps = document.querySelectorAll('.cap');
+    const stage = document.getElementById('stage');
+    const surg = document.getElementById('surgery');
+    const dept = document.getElementById('departments');
+    const trackwrap = document.getElementById('trackwrap');
+    const dIdx = document.getElementById('dIdx');
+
+    function renderLoop() {
+      // Linear Interpolation for butter-smooth scrub
+      if (heroVid && heroVid.duration) {
+        currentTime += (targetTime - currentTime) * 0.08;
+        currentScale += (targetScale - currentScale) * 0.08;
+        
+        if (Math.abs(heroVid.currentTime - currentTime) > 0.02) {
+          heroVid.currentTime = currentTime;
+        }
+        heroVid.style.transform = `scale(${currentScale})`;
+      }
+      requestAnimationFrame(renderLoop);
+    }
+    requestAnimationFrame(renderLoop);
+
+    function onScroll() {
+      const stageRect = stage.getBoundingClientRect();
+      const stageProgress = Math.max(0, Math.min(1, -stageRect.top / (stageRect.height - window.innerHeight)));
+
+      if (heroVid && heroVid.duration) {
+        targetTime = stageProgress * heroVid.duration;
+        targetScale = 1 + (stageProgress * 0.08);
+      }
+
+      // Smooth switch for captions
+      const capIdx = Math.min(2, Math.floor(stageProgress * 3.1));
+      caps.forEach((c, idx) => {
+        c.classList.toggle('active', idx === capIdx);
+      });
+
+      // Surgery Section highlight
+      if (surg) {
+        const surgRect = surg.getBoundingClientRect();
+        const surgProgress = Math.max(0, Math.min(1, -surgRect.top / (surgRect.height - window.innerHeight)));
+        const litCount = Math.floor(surgProgress * (words.length + 2));
+        words.forEach((w, i) => w.classList.toggle('on', i <= litCount));
+      }
+
+      // Horizontal track for desktop
+      if (window.innerWidth > 900 && dept && track) {
+        const deptRect = dept.getBoundingClientRect();
+        const deptProgress = Math.max(0, Math.min(1, -deptRect.top / (deptRect.height - window.innerHeight)));
+        const maxX = track.scrollWidth - trackwrap.clientWidth;
+        track.style.transform = `translate3d(${-deptProgress * maxX}px, 0, 0)`;
+        dIdx.textContent = ('0' + (Math.round(deptProgress * 6) + 1)).slice(-2);
+      }
+    }
+
+    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', onScroll);
+
+    // Live Clock & Hours check
+    function updateHours() {
+      const d = new Date();
+      const pad = n => ('0' + n).slice(-2);
+      document.getElementById('clock').textContent = `${pad(d.getHours())}:${pad(d.getMinutes())}`;
+      const m = d.getHours() * 60 + d.getMinutes();
+      document.querySelectorAll('.sched-list li').forEach(li => {
+        const s = +li.dataset.s, e = +li.dataset.e;
+        const open = s < e ? (m >= s && m < e) : (m >= s || m < e);
+        li.classList.toggle('open', open);
+      });
+    }
+    updateHours();
+    setInterval(updateHours, 30000);
+
+    // Date picker setup
+    const dateInput = document.getElementById('fDate');
+    const tomorrow = new Date(Date.now() + 864e5);
+    dateInput.min = tomorrow.toISOString().split('T')[0];
+    dateInput.value = dateInput.min;
+
+    // Booking submission
+    document.getElementById('bookForm').addEventListener('submit', (e) => {
+      e.preventDefault();
+      document.getElementById('bookOut').textContent = "Request received! We will confirm your slot shortly via SMS/Call.";
+    });
+  </script>
+</body>
+</html>
