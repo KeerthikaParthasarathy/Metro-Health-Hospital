@@ -343,17 +343,16 @@
     .scanner-reveal { position: absolute; inset: 0; overflow: hidden; clip-path: circle(var(--iris-radius, 9vmin) at 50% 50%); will-change: clip-path; background: #101C2C; }
     .scanner-reveal img { width: 100%; height: 100%; object-fit: cover; object-position: center; filter: saturate(.82) contrast(1.05); }
     .scanner-image-shade { position: absolute; inset: 0; background: linear-gradient(0deg, rgba(3,10,22,.9), transparent 65%), radial-gradient(ellipse at center, transparent 25%, rgba(3,10,22,.2)); }
-    .scanner-index { position: absolute; z-index: 3; top: 9vh; left: max(6vw, env(safe-area-inset-left)); color: #AFC9E8; }
+    .scanner-index { position: absolute; z-index: 6; top: 9vh; left: max(6vw, env(safe-area-inset-left)); padding: 9px 13px; border: 1px solid rgba(255,255,255,.22); border-radius: 999px; color: #D7E7FA; background: rgba(5,14,29,.7); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); }
     .scanner-stamp { position: absolute; z-index: 4; top: 9vh; right: max(6vw, env(safe-area-inset-right)); width: clamp(112px, 15vw, 178px); aspect-ratio: 1; display: grid; place-content: center; justify-items: center; gap: 4px; padding: 15px; border: 1px solid rgba(255,255,255,.55); border-radius: 50%; color: #fff; background: rgba(8,20,39,.24); backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px); text-align: center; animation: scanner-spin 28s linear infinite; }
     .scanner-stamp span { font: 9px var(--font-mono); letter-spacing: .12em; text-transform: uppercase; }
     .scanner-stamp b { max-width: 12ch; font: 700 clamp(12px, 1.4vw, 16px)/1.2 var(--font-heading); text-transform: uppercase; }
     .scanner-stamp i { color: #8DBAFF; font-style: normal; font-size: 20px; }
     @keyframes scanner-spin { to { transform: rotate(360deg); } }
-    .scanner-copy { position: absolute; z-index: 3; left: max(7vw, env(safe-area-inset-left)); bottom: clamp(100px, 16vh, 170px); max-width: 760px; opacity: var(--scanner-copy, 0); transform: translateY(calc((1 - var(--scanner-copy, 0)) * 22px)); will-change: opacity, transform; }
-    .scanner-copy > .mono { color: #A8C9F5; margin-bottom: 12px; }
-    .scanner-copy h2 { color: #fff; font: 800 clamp(2.5rem, 7vw, 7rem)/.98 var(--font-heading); letter-spacing: -.045em; text-transform: uppercase; }
+    .scanner-copy { position: absolute; z-index: 6; left: 50%; right: auto; bottom: max(28px, calc(env(safe-area-inset-bottom) + 24px)); width: min(820px, calc(100% - 48px)); max-width: none; padding: clamp(18px, 3vw, 30px); border: 1px solid rgba(255,255,255,.18); border-radius: 18px; background: rgba(4,12,26,.84); box-shadow: 0 18px 55px rgba(0,0,0,.32); backdrop-filter: blur(18px); -webkit-backdrop-filter: blur(18px); text-align: center; opacity: var(--scanner-copy, 0); transform: translate(-50%, calc((1 - var(--scanner-copy, 0)) * 22px)); will-change: opacity, transform; }
+    .scanner-copy h2 { color: #fff; font: 800 clamp(2.2rem, 5.6vw, 5.6rem)/.98 var(--font-heading); letter-spacing: -.045em; text-transform: uppercase; }
     .scanner-copy h2 span { color: #8DBAFF; }
-    .scanner-copy > p:last-child { max-width: 46ch; margin-top: 18px; color: #D6E1F0; font-size: clamp(14px, 1.4vw, 18px); }
+    .scanner-copy > p:last-child { max-width: 46ch; margin: 14px auto 0; color: #D6E1F0; font-size: clamp(14px, 1.4vw, 18px); }
 
     .hours { padding-block: clamp(76px, 10vw, 142px); background: #071224; border-top: 1px solid var(--line); }
     .hours-grid { grid-template-columns: .9fr 1.1fr; align-items: center; }
@@ -428,8 +427,8 @@
       .scanner-stamp { top: 7vh; right: 18px; width: 102px; padding: 8px; }
       .scanner-stamp span { font-size: 7px; }
       .scanner-stamp b { font-size: 10px; }
-      .scanner-copy { left: 22px; right: 22px; bottom: 100px; }
-      .scanner-copy h2 { font-size: clamp(2.25rem, 11vw, 4rem); }
+      .scanner-copy { left: 50%; right: auto; bottom: max(18px, calc(env(safe-area-inset-bottom) + 14px)); width: calc(100% - 32px); padding: 17px 15px; border-radius: 14px; }
+      .scanner-copy h2 { font-size: clamp(2rem, 9vw, 3.5rem); }
       .scanner-copy > p:last-child { font-size: 14px; }
       .hours { padding-block: 68px; }
       .hours h2 { font-size: clamp(2.6rem, 12vw, 4.4rem); }
@@ -471,7 +470,7 @@
     <!-- Hero Section -->
     <section class="stage" id="stage">
       <div class="pin shade">
-        <video class="video-bg" id="heroVideo" muted playsinline preload="auto" poster="https://images.unsplash.com/photo-1579684385127-1ef15d508118?auto=format&fit=crop&w=1920&q=80" aria-hidden="true">
+        <video class="video-bg" id="heroVideo" muted playsinline loop autoplay preload="auto" poster="https://images.unsplash.com/photo-1579684385127-1ef15d508118?auto=format&fit=crop&w=1920&q=80" aria-hidden="true">
           <source src="hero-video.mp4" type="video/mp4">
         </video>
         
@@ -531,7 +530,7 @@
       <div class="scanner-reveal" id="scannerReveal" aria-hidden="true"><img src="https://images.unsplash.com/photo-1511174511562-5f7f18b874f8?auto=format&amp;fit=crop&amp;w=1920&amp;q=85" alt="" loading="lazy"><div class="scanner-image-shade"></div></div>
       <div class="scanner-index mono">03 &middot; Diagnostic imaging</div>
       <div class="scanner-stamp" aria-label="Care that sees beyond the obvious"><span>Care that sees</span><b>Beyond the obvious</b><i aria-hidden="true">&#10022;</i></div>
-      <div class="scanner-copy" id="scannerCopy"><p class="mono">Clarity at every step</p><h2>Care that sees<br><span>beyond the obvious.</span></h2><p>Ultra-high field 3T MRI, Spectral CT, and robotic AI diagnostics.</p></div>
+      <div class="scanner-copy" id="scannerCopy"><h2>Care that sees<br><span>beyond the obvious.</span></h2><p>Ultra-high field 3T MRI, Spectral CT, and robotic AI diagnostics.</p></div>
       <span class="scanner-scroll mono">A wider view of care <span aria-hidden="true">&darr;</span></span>
     </div></section>
 
@@ -680,13 +679,7 @@
       if (mobileHero) {
         cancelAnimationFrame(heroFrame);
         heroFrame = 0;
-        heroVid.loop = true;
-        heroVid.autoplay = true;
-        heroVid.play().catch(() => {});
       } else {
-        heroVid.pause();
-        heroVid.loop = false;
-        heroVid.autoplay = false;
         if (!heroFrame) heroFrame = requestAnimationFrame(renderLoop);
       }
     }
@@ -841,65 +834,73 @@
   </script>
 
 
+  <audio id="bgAudio" src="https://cdn.pixabay.com/download/audio/2022/05/27/audio_1808fbf07a.mp3?filename=meditation-impromptu-01-122532.mp3" loop preload="none" muted aria-hidden="true"></audio>
+
   <script>
-    // Native hero-video audio: muted at load, enabled only from the sound control.
+    // Independent ambient audio; the hero video is never controlled by this toggle.
     (() => {
-      const heroVideo = document.getElementById('heroVideo');
+      const bgAudio = document.getElementById('bgAudio');
       const toggle = document.getElementById('soundToggle');
       const label = document.getElementById('soundLabel');
-      const mobileQuery = window.matchMedia('(max-width: 768px)');
+      let soundOn = false;
       let volumeFrame = 0;
 
-      heroVideo.muted = true;
-      heroVideo.volume = 0;
+      bgAudio.muted = true;
+      bgAudio.volume = 0;
 
       function setSoundState(enabled) {
         toggle.setAttribute('aria-pressed', String(enabled));
         label.textContent = enabled ? 'Sound On' : 'Sound Off';
-        toggle.title = enabled ? 'Hero video sound is on' : 'Hero video sound is off';
+        toggle.title = enabled ? 'Background sound is on' : 'Background sound is off';
       }
 
-      function rampVolume(target, duration = 900) {
+      function fadeVolume(target, duration = 900, onComplete = () => {}) {
         window.cancelAnimationFrame(volumeFrame);
-        const startVolume = heroVideo.volume;
+        const startVolume = bgAudio.volume;
         const startedAt = performance.now();
         function step(now) {
           const progress = Math.min(1, (now - startedAt) / duration);
           const eased = progress * progress * (3 - 2 * progress);
-          heroVideo.volume = startVolume + (target - startVolume) * eased;
-          if (progress < 1) volumeFrame = window.requestAnimationFrame(step);
-          else volumeFrame = 0;
+          bgAudio.volume = startVolume + (target - startVolume) * eased;
+          if (progress < 1) {
+            volumeFrame = window.requestAnimationFrame(step);
+          } else {
+            volumeFrame = 0;
+            onComplete();
+          }
         }
         volumeFrame = window.requestAnimationFrame(step);
       }
 
       toggle.addEventListener('click', async () => {
-        const turnOn = toggle.getAttribute('aria-pressed') !== 'true';
-        toggle.disabled = true;
-        try {
-          if (turnOn) {
-            heroVideo.volume = 0;
-            heroVideo.muted = false;
-            await heroVideo.play();
-            rampVolume(0.7);
+        if (!soundOn) {
+          toggle.disabled = true;
+          try {
+            if (bgAudio.paused) bgAudio.volume = 0;
+            bgAudio.muted = false;
+            await bgAudio.play();
+            soundOn = true;
             setSoundState(true);
-          } else {
-            window.cancelAnimationFrame(volumeFrame);
-            volumeFrame = 0;
-            heroVideo.muted = true;
-            heroVideo.volume = 0;
-            if (!mobileQuery.matches) heroVideo.pause();
+            fadeVolume(0.35);
+          } catch (error) {
+            soundOn = false;
+            bgAudio.pause();
+            bgAudio.muted = true;
+            bgAudio.volume = 0;
             setSoundState(false);
+            toggle.title = 'Background audio is unavailable; add ambient.mp3 to the site';
+          } finally {
+            toggle.disabled = false;
           }
-        } catch (error) {
-          window.cancelAnimationFrame(volumeFrame);
-          volumeFrame = 0;
-          heroVideo.muted = true;
-          heroVideo.volume = 0;
+        } else {
+          soundOn = false;
           setSoundState(false);
-          toggle.title = 'Hero video audio could not be started';
-        } finally {
-          toggle.disabled = false;
+          fadeVolume(0, 900, () => {
+            if (!soundOn) {
+              bgAudio.pause();
+              bgAudio.muted = true;
+            }
+          });
         }
       });
     })();
